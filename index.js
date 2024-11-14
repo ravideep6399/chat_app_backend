@@ -14,11 +14,20 @@ var io = require("socket.io")(server,{
  app.use(express.json)
  app.use(cors)
 
-io.on("Connection",(socket)=>{
+var clients = {}
+
+io.on("connection",(socket)=>{
     console.log("Connected")
+    socket.on("signin",(id)=>{
+        console.log(id)
+        clients[id] = id
+    })
+    socket.on("message",(obj)=>{
+        console.log(obj["message"]);
+    })
 })
 
-server.listen(port,()=>{
+server.listen(port,"0.0.0.0",()=>{
     console.log("server started")
 })
 
