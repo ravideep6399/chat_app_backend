@@ -20,10 +20,12 @@ io.on("connection",(socket)=>{
     console.log("Connected")
     socket.on("signin",(id)=>{
         console.log(id)
-        clients[id] = id
+        clients[id] = socket
     })
     socket.on("message",(obj)=>{
         console.log(obj["message"]);
+        var targetId = obj["targetId"];
+        if(clients[targetId]) clients[targetId].emit("message",obj);
     })
 })
 
